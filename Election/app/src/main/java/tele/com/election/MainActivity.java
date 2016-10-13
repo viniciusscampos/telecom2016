@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void listarDispositivos(View view) {
+    public void listDevices(View view) {
         final ArrayList<String> foundDevices = new ArrayList<String>();
         StringBuilder sb = new StringBuilder();
         this.bluetoothAdapter.startDiscovery();
@@ -61,5 +61,11 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
 
         unregisterReceiver(bdReceiver);
+    }
+
+    public void makeVisible(View view) {
+        Intent isDiscoverable = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+        isDiscoverable.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+        startActivity(isDiscoverable);
     }
 }
