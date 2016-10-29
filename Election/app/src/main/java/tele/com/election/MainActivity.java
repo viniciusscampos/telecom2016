@@ -11,6 +11,7 @@ import android.view.View;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.BroadcastReceiver;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -49,17 +50,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void listDevices(View view) {
-        Context context = getApplicationContext();
-        int length = Toast.LENGTH_LONG;
+        final Context context = getApplicationContext();
+        final int length = Toast.LENGTH_LONG;
         try{
             synchronized (this){
                 wait(20000);
             }
+
+            //////////////////////
+            //   COLOCAR SPIN   //
+            //////////////////////
+
             ListView lv = (ListView)findViewById(R.id.listview1);
             lv.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, foundDevices));
+
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                    Toast toast = Toast.makeText(context,"clique",length);
+                    toast.show();
+                }
+            });
+
+            System.out.println(foundDevices.toString());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
     }
 
     final BroadcastReceiver bdReceiver = new BroadcastReceiver() {
