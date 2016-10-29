@@ -11,9 +11,12 @@ import android.view.View;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.BroadcastReceiver;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -50,10 +53,10 @@ public class MainActivity extends AppCompatActivity {
         int length = Toast.LENGTH_LONG;
         try{
             synchronized (this){
-                wait(10000);
+                wait(20000);
             }
-            Toast toast = Toast.makeText(context,foundDevices.toString(),length);
-            toast.show();
+            ListView lv = (ListView)findViewById(R.id.listview1);
+            lv.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, foundDevices));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -33,4 +33,14 @@
         android:id="@+id/button2"
         android:onClick="makeVisible" />
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/button2"
+        android:layout_alignRight="@+id/button2"
+        android:layout_alignEnd="@+id/button2"
+        android:layout_marginTop="84dp"
+        android:id="@+id/listview1"
+        />
+
 </RelativeLayout>
