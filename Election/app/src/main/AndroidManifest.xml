@@ -18,24 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".CreateSurveyActivity"
-            android:label="@string/title_activity_create_survey"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="tele.com.election.MainActivity" />
-        </activity>
-        <activity
-            android:name=".AswerSurveyActivity"
-            android:label="@string/title_activity_aswer_survey"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="tele.com.election.MainActivity" />
-        </activity>
+        <activity android:name=".CreateSurveyActivity"
+            android:label="Criar Enquete"/>
+        <activity android:name=".AswerSurveyActivity"
+            android:label="Responder Enquete"></activity>
     </application>
 
 </manifest>

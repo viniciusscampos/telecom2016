@@ -1,6 +1,4 @@
 <resources>
     <string name="app_name">Election</string>
-    <string name="title_activity_create_survey">CreateSurveyActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_aswer_survey">AswerSurveyActivity</string>
 </resources>
