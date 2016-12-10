@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_create_survey"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="tele.com.election.CreateSurveyActivity"
+    android:visibility="visible">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/surveyTitle"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="67dp"
+        android:hint="title" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/surveyOptionOne"
+        android:layout_marginTop="56dp"
+        android:layout_below="@+id/surveyTitle"
+        android:layout_alignLeft="@+id/surveyTitle"
+        android:layout_alignStart="@+id/surveyTitle"
+        android:hint="opcao1" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/surveyOptionTwo"
+        android:layout_below="@+id/surveyOptionOne"
+        android:layout_alignLeft="@+id/surveyOptionOne"
+        android:layout_alignStart="@+id/surveyOptionOne"
+        android:hint="opcao2" />
+
+    <Button
+        android:text="Criar Enquete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/createSurveyBtn"
+        android:onClick="createSurvey"
+        android:layout_marginTop="11dp"
+        android:layout_below="@+id/surveyOptionTwo"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
