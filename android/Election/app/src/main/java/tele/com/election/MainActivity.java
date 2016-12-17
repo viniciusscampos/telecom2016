@@ -122,4 +122,16 @@ public class MainActivity extends AppCompatActivity {
         isDiscoverable.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
         startActivity(isDiscoverable);
     }
+
+    public void changeToCreateSurvey(View view){
+        Intent intent = new Intent(this, CreateSurveyActivity.class);
+        startActivity(intent);
+    }
+
+    public void changeToAnswerSurvey(View view){
+        Intent intent = new Intent(this, AnswerSurveyActivity.class);
+        startActivity(intent);
+
+    }
+
 }

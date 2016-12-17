@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".CreateSurveyActivity"
             android:label="Criar Enquete"/>
-        <activity android:name=".AswerSurveyActivity"
+        <activity android:name=".AnswerSurveyActivity"
             android:label="Responder Enquete"></activity>
     </application>
 

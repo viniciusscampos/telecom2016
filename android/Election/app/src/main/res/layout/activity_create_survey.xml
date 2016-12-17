@@ -55,4 +55,24 @@
         android:layout_below="@+id/surveyOptionTwo"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:text="+"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/createSurveyBtn"
+        android:layout_toLeftOf="@+id/createSurveyBtn"
+        android:layout_toStartOf="@+id/createSurveyBtn"
+        android:id="@+id/add_option_button"
+        android:onClick="addOption" />
+
+    <Button
+        android:text="-"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createSurveyBtn"
+        android:layout_alignLeft="@+id/add_option_button"
+        android:layout_alignStart="@+id/add_option_button"
+        android:id="@+id/sub_option_button"
+        android:onClick="deleteOption" />
+
 </RelativeLayout>
