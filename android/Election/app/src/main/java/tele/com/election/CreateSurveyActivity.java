@@ -56,6 +56,11 @@ public class CreateSurveyActivity extends AppCompatActivity {
             /////////////// ANUNCIAR DISPOSITIVO ///////////////
             makeVisible(view);
 
+
+            /////////////// PASSA PARA ACTIVITY DE PROGRESSO DA ENQUETE ///////////////
+            Intent intent = new Intent(this, SurveyInProgressActivity.class);
+            startActivity(intent);
+
             /////////////// ESPERAR CONEXOES + ENVIAR SURVEY + RECEBER RESPOSTAS ///////////////
             // Ver como faz
         }
