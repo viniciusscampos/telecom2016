@@ -7,6 +7,7 @@ import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
+import android.net.wifi.p2p.WifiP2pGroup;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,7 +31,7 @@ public class SurveyInProgressActivity extends AppCompatActivity{
 
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(this, getMainLooper(), null);
-        mReceiver = new WiFiDirectBroadcastReceiver(mManager, mChannel, this);
+        mReceiver = new ServerBroadcastReceiver(mManager, mChannel, this);
 
         mIntentFilter = new IntentFilter();
         mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
@@ -38,13 +39,26 @@ public class SurveyInProgressActivity extends AppCompatActivity{
         mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
         mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
 
-        /////////////// ESPERAR CONEXOES + ENVIAR SURVEY + RECEBER RESPOSTAS ///////////////
-        // Ver como faz
     }
 
     protected void onResume(){
         super .onResume();
         registerReceiver(mReceiver,mIntentFilter);
+
+        mManager.createGroup(mChannel, new WifiP2pManager.ActionListener() {
+            final Context context = getApplicationContext();
+
+            @Override
+            public void onSuccess(){
+                Toast.makeText(context, "O Grupo foi criado com sucesso!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int reasonCode){
+                Toast.makeText(context, "O Grupo não foi criado!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener(){
             final Context context = getApplicationContext();
@@ -73,7 +87,7 @@ public class SurveyInProgressActivity extends AppCompatActivity{
         public void onPeersAvailable(WifiP2pDeviceList peersList) {
             peers.clear();
             peers.addAll(peersList.getDeviceList());
-            connect();
+            //connect();
         }
     };
 

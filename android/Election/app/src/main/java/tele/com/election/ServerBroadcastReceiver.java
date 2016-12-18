@@ -3,19 +3,17 @@ package tele.com.election;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pManager;
-import android.util.Log;
 
 
-public class WiFiDirectBroadcastReceiver extends BroadcastReceiver{
+public class ServerBroadcastReceiver extends BroadcastReceiver{
 
     private WifiP2pManager mManager;
     private WifiP2pManager.Channel mChannel;
     private SurveyInProgressActivity mActivity;
 
-    public  WiFiDirectBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel,
-            SurveyInProgressActivity activity){
+    public ServerBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel,
+                                   SurveyInProgressActivity activity){
         super();
         this.mManager = manager;
         this.mChannel = channel;
