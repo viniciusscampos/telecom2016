@@ -10,38 +10,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="tele.com.election.MainActivity">
 
-    <Button
-        android:text="Listar dispositivo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="98dp"
-        android:id="@+id/button"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/button2"
-        android:layout_alignStart="@+id/button2"
-        android:layout_alignRight="@+id/button2"
-        android:layout_alignEnd="@+id/button2" />
-        <!-- android:onClick="listDevices"  /> -->
+    <!-- android:onClick="listDevices"  /> -->
 
-    <Button
-        android:text="Anunciar dispositivo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp"
-        android:id="@+id/button2" />
-        <!-- android:onClick="makeVisible"  /> -->
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/button2"
-        android:layout_alignRight="@+id/button2"
-        android:layout_alignEnd="@+id/button2"
-        android:layout_marginTop="84dp"
-        android:id="@+id/listview1"
-        />
+    <!-- android:onClick="makeVisible"  /> -->
 
     <Button
         android:text="Responder"

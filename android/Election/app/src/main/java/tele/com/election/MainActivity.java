@@ -42,26 +42,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if(this.bluetoothAdapter!=null){
-            if(!this.bluetoothAdapter.isEnabled()){
-                Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BLUETOOTH);
-            }
-            bluetoothAdapter.startDiscovery();
-            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-            registerReceiver(bdReceiver,filter);
-        }
-
     }
 
     @Override
     protected void onDestroy(){
-        unregisterReceiver(bdReceiver);
         super.onDestroy();
     }
 
     public void listDevices(View view) {
+        /*
         final Context context = getApplicationContext();
         final int length = Toast.LENGTH_LONG;
         try{
@@ -102,26 +91,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        */
 
     }
 
-    final BroadcastReceiver bdReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if(BluetoothDevice.ACTION_FOUND.equals(action)){
-                BluetoothDevice btdevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                //foundDevices.add(btdevice.getName() + "\n" + btdevice.getAddress());
-                foundDevices.add(btdevice);
-            }
-        }
-    };
-
-    public void makeVisible(View view) {
-        Intent isDiscoverable = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        isDiscoverable.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-        startActivity(isDiscoverable);
-    }
 
     public void changeToCreateSurvey(View view){
         Intent intent = new Intent(this, CreateSurveyActivity.class);

@@ -22,7 +22,7 @@ public class CreateSurveyActivity extends AppCompatActivity {
 
         /////////////// CRIAR SURVEY ///////////////
 
-        ArrayList<Option> options = new ArrayList<Option>();
+        ArrayList<String> options = new ArrayList<String>();
         // Captura o título da enquete inserido pelo usuário
         EditText titleEditText = (EditText) findViewById(R.id.surveyTitle);
         String title = titleEditText.getText().toString();
@@ -46,30 +46,19 @@ public class CreateSurveyActivity extends AppCompatActivity {
         }
         else
         {
-            Option optionOne = new Option(firstOptionEditText.getText().toString());
+            String optionOne = firstOptionEditText.getText().toString();
             options.add(optionOne);
-            Option optionTwo = new Option(secondOptionEditText.getText().toString());
+            String optionTwo = secondOptionEditText.getText().toString();
             options.add(optionTwo);
-            Survey survey = new Survey(title, options);
-
-
-            /////////////// ANUNCIAR DISPOSITIVO ///////////////
-            makeVisible(view);
-
+            //Survey survey = new Survey(title, options);
 
             /////////////// PASSA PARA ACTIVITY DE PROGRESSO DA ENQUETE ///////////////
             Intent intent = new Intent(this, SurveyInProgressActivity.class);
+            intent.putExtra("title",title);
+            intent.putExtra("options",options);
             startActivity(intent);
 
-            /////////////// ESPERAR CONEXOES + ENVIAR SURVEY + RECEBER RESPOSTAS ///////////////
-            // Ver como faz
         }
-    }
-
-    public void makeVisible(View view) {
-        Intent isDiscoverable = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        isDiscoverable.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-        startActivity(isDiscoverable);
     }
 
     public void addOption(View view){

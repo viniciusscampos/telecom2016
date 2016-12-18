@@ -2,12 +2,13 @@ package tele.com.election;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
-import android.net.wifi.p2p.WifiP2pGroup;
+import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,10 @@ public class AnswerSurveyActivity extends AppCompatActivity{
     private BroadcastReceiver mReceiver;
     private IntentFilter mIntentFilter;
     private List peers = new ArrayList();
+    private WifiP2pInfo mWifiinfo;
+    private WifiP2pDevice mServerDevice;
+    private boolean isConnected;
+
 
 
     @Override
@@ -32,6 +37,7 @@ public class AnswerSurveyActivity extends AppCompatActivity{
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(this, getMainLooper(), null);
         mReceiver = new ClientBroadcastReceiver(mManager, mChannel, this);
+        isConnected = false;
 
         mIntentFilter = new IntentFilter();
         mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
@@ -71,24 +77,23 @@ public class AnswerSurveyActivity extends AppCompatActivity{
         @Override
         public void onPeersAvailable(WifiP2pDeviceList peersList) {
             peers.clear();
+            final WifiP2pConfig config = new WifiP2pConfig();
+            System.out.println("Listener.");
             for(WifiP2pDevice device : peersList.getDeviceList()){
                 if(device.isGroupOwner()){
-                    System.out.println("Owner ...");
-                    System.out.println(device);
                     peers.add(device);
                     break;
                 }
             }
-            if(!peers.isEmpty()){
+            if(!peers.isEmpty() && !isConnected){
+                System.out.println("Chamando toda hora.");
                 connect();
             }
         }
     };
 
     public void connect(){
-        System.out.println("Conectando ...");
-        System.out.println(peers);
-        WifiP2pDevice device = (WifiP2pDevice) peers.get(0);
+        final WifiP2pDevice device = (WifiP2pDevice) peers.get(0);
 
         final WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = device.deviceAddress;
@@ -99,14 +104,32 @@ public class AnswerSurveyActivity extends AppCompatActivity{
             public void onSuccess() {
                 Toast.makeText(AnswerSurveyActivity.this, config.toString(),
                         Toast.LENGTH_LONG).show();
+                isConnected = true;
+
+                receiveSurvey(device);
             }
 
             @Override
             public void onFailure(int reason) {
-                Toast.makeText(AnswerSurveyActivity.this, config.toString(),
-                        Toast.LENGTH_LONG).show();
+                isConnected = false;
             }
         });
+    }
+
+    /*
+    private void callSurveyClientTask(String host, int port){
+        SurveyClient surveyClientTask = new SurveyClient(host,port);
+        surveyClientTask.dataTransfer();
+    }
+    */
+
+    public void receiveSurvey(WifiP2pDevice device){
+        System.out.println("Receive Survey.");
+        //this.mWifiinfo = info;
+        //this.mServerDevice = device;
+        //SurveyClient surveyClientTask = new SurveyClient(8888,mWifiinfo,mServerDevice);
+        SurveyClient surveyClientTask = new SurveyClient(8888,device);
+        surveyClientTask.dataTransfer();
     }
 
 }
