@@ -42,7 +42,6 @@ public class ClientBroadcastReceiver extends BroadcastReceiver{
             WifiP2pInfo wifiinfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_INFO);
             WifiP2pDevice device = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
 
-            System.out.println("Algum dispositivo foi conectado");
             if(networkState.isConnected()){
                 System.out.println("NetworkState isConected");
                 System.out.println(wifiinfo);

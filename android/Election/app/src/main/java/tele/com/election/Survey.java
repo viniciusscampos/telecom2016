@@ -1,8 +1,9 @@
 package tele.com.election;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Survey {
+public class Survey implements Serializable{
     private String title;
     private ArrayList<Option> options;
 

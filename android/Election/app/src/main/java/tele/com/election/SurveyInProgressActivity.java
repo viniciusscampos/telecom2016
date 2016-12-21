@@ -2,14 +2,7 @@ package tele.com.election;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.wifi.WpsInfo;
-import android.net.wifi.p2p.WifiP2pConfig;
-import android.net.wifi.p2p.WifiP2pDevice;
-import android.net.wifi.p2p.WifiP2pDeviceList;
-import android.net.wifi.p2p.WifiP2pGroup;
-import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +19,7 @@ public class SurveyInProgressActivity extends AppCompatActivity{
     private List peers = new ArrayList();
     private String title;
     private ArrayList<String> options;
+    private Survey survey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +29,7 @@ public class SurveyInProgressActivity extends AppCompatActivity{
         Bundle bundle = getIntent().getExtras();
         this.title = bundle.getString("title");
         this.options = bundle.getStringArrayList("options");
+        this.survey = constructSurvey(this.title,this.options);
 
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(this, getMainLooper(), null);
@@ -51,7 +46,7 @@ public class SurveyInProgressActivity extends AppCompatActivity{
     protected void onResume(){
         super .onResume();
         registerReceiver(mReceiver,mIntentFilter);
-        callSurveyAsyncTask();
+        callSurveyAsyncTask(this.survey);
 
         mManager.createGroup(mChannel, new WifiP2pManager.ActionListener() {
             final Context context = getApplicationContext();
@@ -106,10 +101,19 @@ public class SurveyInProgressActivity extends AppCompatActivity{
     }
 
     */
-    private void callSurveyAsyncTask(){
+
+    private Survey constructSurvey(String title, ArrayList<String> opts){
+        ArrayList<Option> options = new ArrayList<Option>();
+        for(String option : opts){
+            options.add(new Option(option));
+        }
+        return new Survey(title,options);
+    }
+
+
+    private void callSurveyAsyncTask(Survey survey){
         SurveyServerAsyncTask surveyServerAsyncTask = new SurveyServerAsyncTask();
-        surveyServerAsyncTask.execute();
-        //surveyServerAsyncTask.doInBackground(new Object[0]);
+        surveyServerAsyncTask.execute(8888,survey);
     }
 
 }

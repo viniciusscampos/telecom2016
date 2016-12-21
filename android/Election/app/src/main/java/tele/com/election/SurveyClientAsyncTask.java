@@ -8,7 +8,7 @@ import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class SurveyClient extends AsyncTask{
+public class SurveyClientAsyncTask extends AsyncTask{
 
     protected  void onPreExecute(){
         System.out.println("Receiving the message from the server!");
@@ -26,7 +26,9 @@ public class SurveyClient extends AsyncTask{
             try{
                 socket = new Socket(serverIP,port);
                 mIIS = new ObjectInputStream(socket.getInputStream());
-                System.out.println(mIIS.readObject());
+                Survey survey = (Survey) mIIS.readObject();
+                System.out.println(survey);
+                //System.out.println(mIIS.readObject());
 
                 return "Client is working!";
             }

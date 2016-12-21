@@ -2,7 +2,6 @@ package tele.com.election;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
@@ -120,6 +119,9 @@ public class AnswerSurveyActivity extends AppCompatActivity{
                 }
             });
         }
+        else{
+            disconnect();
+        }
     }
 
     public void disconnect(){
@@ -162,9 +164,9 @@ public class AnswerSurveyActivity extends AppCompatActivity{
 
     public void receiveSurvey(WifiP2pDevice device, WifiP2pInfo wifiinfo, int port) throws UnknownHostException {
         System.out.println("Receiving Survey.");
-        SurveyClient surveyClient = new SurveyClient();
-        surveyClient.execute(device,wifiinfo,port);
-        //new SurveyClient(8888,device, wifiinfo).execute();
+        SurveyClientAsyncTask surveyClientAsyncTask = new SurveyClientAsyncTask();
+        surveyClientAsyncTask.execute(device,wifiinfo,port);
+        //new SurveyClientAsyncTask(8888,device, wifiinfo).execute();
     }
 
 }

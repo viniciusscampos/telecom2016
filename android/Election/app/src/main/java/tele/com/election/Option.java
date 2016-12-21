@@ -1,6 +1,8 @@
 package tele.com.election;
 
-public class Option {
+import java.io.Serializable;
+
+public class Option implements Serializable{
     public String text;
     public Integer voteAmount;
 
