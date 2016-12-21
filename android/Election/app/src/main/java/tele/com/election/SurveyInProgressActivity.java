@@ -47,6 +47,7 @@ public class SurveyInProgressActivity extends AppCompatActivity{
         super .onResume();
         registerReceiver(mReceiver,mIntentFilter);
         callSurveyAsyncTask(this.survey);
+        //callSurveyAsyncTask(this.title,this.options);
 
         mManager.createGroup(mChannel, new WifiP2pManager.ActionListener() {
             final Context context = getApplicationContext();
@@ -115,5 +116,13 @@ public class SurveyInProgressActivity extends AppCompatActivity{
         SurveyServerAsyncTask surveyServerAsyncTask = new SurveyServerAsyncTask();
         surveyServerAsyncTask.execute(8888,survey);
     }
+
+
+    /*
+    private void callSurveyAsyncTask(String title, ArrayList<String> options){
+        SurveyServerAsyncTask surveyServerAsyncTask = new SurveyServerAsyncTask();
+        surveyServerAsyncTask.execute(8888,title,options);
+    }
+    */
 
 }

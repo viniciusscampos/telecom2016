@@ -47,7 +47,7 @@ public class ClientBroadcastReceiver extends BroadcastReceiver{
                 System.out.println(wifiinfo);
                 try {
                     mActivity.receiveSurvey(device,wifiinfo,8888);
-                } catch (UnknownHostException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class AnswerSurveyActivity extends AppCompatActivity{
 
@@ -162,11 +163,15 @@ public class AnswerSurveyActivity extends AppCompatActivity{
         });
     }
 
-    public void receiveSurvey(WifiP2pDevice device, WifiP2pInfo wifiinfo, int port) throws UnknownHostException {
+    public void receiveSurvey(WifiP2pDevice device, WifiP2pInfo wifiinfo, int port) {
         System.out.println("Receiving Survey.");
         SurveyClientAsyncTask surveyClientAsyncTask = new SurveyClientAsyncTask();
         surveyClientAsyncTask.execute(device,wifiinfo,port);
         //new SurveyClientAsyncTask(8888,device, wifiinfo).execute();
+    }
+
+    public void dataFromPostExecute(Survey data){
+        System.out.println("Título da enquete: "+ data.getTitle());
     }
 
 }

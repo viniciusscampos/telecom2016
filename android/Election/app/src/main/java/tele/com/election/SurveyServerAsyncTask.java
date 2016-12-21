@@ -23,6 +23,8 @@ public class SurveyServerAsyncTask extends AsyncTask {
     @Override
     protected String doInBackground(Object[] params) {
         int port = (int) params[0];
+        //String title = (String) params[1];
+        //ArrayList<String> options = (ArrayList<String>) params[2];
         Survey survey = (Survey) params[1];
         try{
             ServerSocket listener = new ServerSocket(port);
@@ -30,8 +32,9 @@ public class SurveyServerAsyncTask extends AsyncTask {
             try{
                 ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
                 output.flush();
-                //output.writeObject("Oi");
                 output.writeObject(survey);
+                //output.writeObject(title);
+                //output.writeObject(options);
                 output.close();
                 return "Funcionou!";
             } finally {

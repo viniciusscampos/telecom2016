@@ -7,15 +7,19 @@ import android.os.AsyncTask;
 import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class SurveyClientAsyncTask extends AsyncTask{
+
+    private AnswerSurveyActivity activity = new AnswerSurveyActivity();
+    private Survey survey;
 
     protected  void onPreExecute(){
         System.out.println("Receiving the message from the server!");
     }
 
     @Override
-    protected String doInBackground(Object[] params) {
+    protected Object doInBackground(Object[] params) {
         try {
             WifiP2pDevice device = (WifiP2pDevice) params[0];
             WifiP2pInfo wifiinfo = (WifiP2pInfo) params[1];
@@ -26,11 +30,11 @@ public class SurveyClientAsyncTask extends AsyncTask{
             try{
                 socket = new Socket(serverIP,port);
                 mIIS = new ObjectInputStream(socket.getInputStream());
-                Survey survey = (Survey) mIIS.readObject();
-                System.out.println(survey);
+                this.survey = (Survey) mIIS.readObject();
+                //Survey survey = (Survey) mIIS.readObject();
                 //System.out.println(mIIS.readObject());
 
-                return "Client is working!";
+                return this.survey;
             }
             catch(Exception e){
                 System.out.println("Erro: estou aqui sozinho" + e.getMessage());
@@ -40,6 +44,11 @@ public class SurveyClientAsyncTask extends AsyncTask{
         } catch (Exception e) {
             e.printStackTrace();
         }
-    return "Client isnt working!";
+    return null;
     }
+
+    protected void onPostExecute(Object result){
+        this.activity.dataFromPostExecute(this.survey);
+    }
+
 }
