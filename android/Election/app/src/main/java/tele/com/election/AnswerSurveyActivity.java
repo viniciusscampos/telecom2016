@@ -12,31 +12,33 @@ import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.UnknownHostException;
+import org.w3c.dom.Text;
+
 import java.util.List;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 public class AnswerSurveyActivity extends AppCompatActivity{
 
     private WifiP2pManager mManager;
     private WifiP2pManager.Channel mChannel;
     private BroadcastReceiver mReceiver;
-    private WifiP2pDevice mServerDevice;
     private IntentFilter mIntentFilter;
-    private WifiP2pInfo mWifiinfo;
     private List peers = new ArrayList();
     private boolean isConnected;
+    private Survey survey;
+    private TextView titleView;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_survey_in_progress);
+        setContentView(R.layout.activity_answer_survey);
 
+        titleView = (TextView)findViewById(R.id.survey_title_view);
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(this, getMainLooper(), null);
         mReceiver = new ClientBroadcastReceiver(mManager, mChannel, this);
@@ -53,6 +55,15 @@ public class AnswerSurveyActivity extends AppCompatActivity{
     protected void onResume(){
         super .onResume();
         registerReceiver(mReceiver,mIntentFilter);
+
+        if (this.survey != null) {
+            this.titleView.setText(this.survey.getTitle());
+        }
+        //setContentView(R.layout.activity_answer_survey);
+        //TextView tv1 = (TextView)findViewById(R.id.survey_title_view);
+        //if(this.survey!=null){
+         //   tv1.setText(this.survey.getTitle());
+        //}
 
         mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener(){
             final Context context = getApplicationContext();
@@ -163,15 +174,15 @@ public class AnswerSurveyActivity extends AppCompatActivity{
         });
     }
 
-    public void receiveSurvey(WifiP2pDevice device, WifiP2pInfo wifiinfo, int port) {
+    public void receiveSurvey(WifiP2pInfo wifiinfo, int port) {
         System.out.println("Receiving Survey.");
         SurveyClientAsyncTask surveyClientAsyncTask = new SurveyClientAsyncTask();
-        surveyClientAsyncTask.execute(device,wifiinfo,port);
-        //new SurveyClientAsyncTask(8888,device, wifiinfo).execute();
+        surveyClientAsyncTask.execute(wifiinfo,port,this);
     }
 
-    public void dataFromPostExecute(Survey data){
-        System.out.println("Título da enquete: "+ data.getTitle());
+    public void dataFromPostExecute(Option option){
+        //this.survey = survey;
+        System.out.println("A opção escolhida foi: "+ option.text);
     }
 
 }

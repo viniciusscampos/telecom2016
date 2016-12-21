@@ -3,16 +3,20 @@ package tele.com.election;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class SurveyClientAsyncTask extends AsyncTask{
 
-    private AnswerSurveyActivity activity = new AnswerSurveyActivity();
+    private AnswerSurveyActivity activity;
     private Survey survey;
+    private Option chosenOption;
 
     protected  void onPreExecute(){
         System.out.println("Receiving the message from the server!");
@@ -21,9 +25,9 @@ public class SurveyClientAsyncTask extends AsyncTask{
     @Override
     protected Object doInBackground(Object[] params) {
         try {
-            WifiP2pDevice device = (WifiP2pDevice) params[0];
-            WifiP2pInfo wifiinfo = (WifiP2pInfo) params[1];
-            int port = (int) params[2];
+            WifiP2pInfo wifiinfo = (WifiP2pInfo) params[0];
+            int port = (int) params[1];
+            this.activity = (AnswerSurveyActivity) params[2];
             InetAddress serverIP = wifiinfo.groupOwnerAddress;
             Socket socket;
             ObjectInputStream mIIS;
@@ -48,7 +52,23 @@ public class SurveyClientAsyncTask extends AsyncTask{
     }
 
     protected void onPostExecute(Object result){
-        this.activity.dataFromPostExecute(this.survey);
+        //this.activity.dataFromPostExecute(this.survey);
+        TextView tv = (TextView) this.activity.findViewById(R.id.survey_title_view);
+        tv.setText(this.survey.getTitle());
+        //LinearLayout linearLayout = new LinearLayout(this.activity);
+        LinearLayout linearLayout = (LinearLayout) this.activity.findViewById(R.id.answer_survey_options_layout);
+        for(final Option option : this.survey.getResult()){
+            Button alternative = new Button(this.activity);
+            alternative.setText(option.text);
+            linearLayout.addView(alternative);
+
+            alternative.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    activity.dataFromPostExecute(option);
+                }
+            });
+        }
     }
 
 }

@@ -46,7 +46,7 @@ public class ClientBroadcastReceiver extends BroadcastReceiver{
                 System.out.println("NetworkState isConected");
                 System.out.println(wifiinfo);
                 try {
-                    mActivity.receiveSurvey(device,wifiinfo,8888);
+                    mActivity.receiveSurvey(wifiinfo,8888);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
