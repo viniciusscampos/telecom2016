@@ -80,7 +80,6 @@ public class AnswerSurveyActivity extends AppCompatActivity{
         @Override
         public void onPeersAvailable(WifiP2pDeviceList peersList) {
             peers.clear();
-            final WifiP2pConfig config = new WifiP2pConfig();
             System.out.println("Listener.");
             for(WifiP2pDevice device : peersList.getDeviceList()){
                 if(device.isGroupOwner()){
@@ -89,7 +88,6 @@ public class AnswerSurveyActivity extends AppCompatActivity{
                 }
             }
             if(!peers.isEmpty() && !isConnected){
-                System.out.println("Chamando toda hora.");
                 connect();
             }
         }
@@ -97,17 +95,13 @@ public class AnswerSurveyActivity extends AppCompatActivity{
 
     public void connect(){
         final WifiP2pDevice device = (WifiP2pDevice) peers.get(0);
-        System.out.println("O número de dispositivos é: "+ peers.size());
 
         final WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = device.deviceAddress;
         config.wps.setup = WpsInfo.PBC;
 
-        // Modifica a variável isConnected para true caso já esteja conectado ao servidor
-        // Modifica a variável isCOnnected para false caso não esteja conectado ao servidor
         connectionActive(device);
 
-        // Realiza a conexão apenas caso já não esteja conectado ao servidor
         if(!isConnected){
             mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
                 @Override
@@ -116,7 +110,6 @@ public class AnswerSurveyActivity extends AppCompatActivity{
                             Toast.LENGTH_LONG).show();
                     isConnected = true;
 
-                    //receiveSurvey(device,mWifiinfo);
                 }
 
                 @Override
@@ -129,28 +122,20 @@ public class AnswerSurveyActivity extends AppCompatActivity{
         }
     }
 
-    public void disconnect(WifiP2pDevice device){
-        final WifiP2pDevice serverDevice = device;
-        mManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
+    public void disconnect(){
+        mManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() {
             @Override
-            public void onGroupInfoAvailable(WifiP2pGroup group) {
-                if(group.getOwner().equals(serverDevice)){
-                    mManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() {
-                        @Override
-                        public void onSuccess() {
-                            Toast.makeText(AnswerSurveyActivity.this, "O grupo ao qual estava conectado foi removido com sucesso!",
-                                    Toast.LENGTH_LONG).show();
-                            isConnected = false;
-                        }
+            public void onSuccess() {
+                Toast.makeText(AnswerSurveyActivity.this, "O grupo ao qual estava conectado foi removido com sucesso!",
+                        Toast.LENGTH_LONG).show();
+                isConnected = false;
+            }
 
-                        @Override
-                        public void onFailure(int reason) {
-                            Toast.makeText(AnswerSurveyActivity.this, "Não foi possível removê-lo do grupo",
-                                    Toast.LENGTH_LONG).show();
-                            isConnected = true;
-                        }
-                    });
-                }
+            @Override
+            public void onFailure(int reason) {
+                Toast.makeText(AnswerSurveyActivity.this, "Não foi possível removê-lo do grupo",
+                        Toast.LENGTH_LONG).show();
+                isConnected = true;
             }
         });
     }
@@ -175,24 +160,11 @@ public class AnswerSurveyActivity extends AppCompatActivity{
         });
     }
 
-    public void setWifiinfo(WifiP2pInfo info){
-        this.mWifiinfo = info;
-    }
-    /*
-    private void callSurveyClientTask(String host, int port){
-        SurveyClient surveyClientTask = new SurveyClient(host,port);
-        surveyClientTask.dataTransfer();
-    }
-    */
-
-    public void receiveSurvey(WifiP2pDevice device, WifiP2pInfo wifiinfo) throws UnknownHostException {
+    public void receiveSurvey(WifiP2pDevice device, WifiP2pInfo wifiinfo, int port) throws UnknownHostException {
         System.out.println("Receiving Survey.");
-        //this.mWifiinfo = info;
-        //this.mServerDevice = device;
-        //SurveyClient surveyClientTask = new SurveyClient(8888,mWifiinfo,mServerDevice);
-        //SurveyClient surveyClientTask = new SurveyClient(8888,device, wifiinfo);
-        //surveyClientTask.dataTransfer();
-        new SurveyClient(8888,device, wifiinfo).execute();
+        SurveyClient surveyClient = new SurveyClient();
+        surveyClient.execute(device,wifiinfo,port);
+        //new SurveyClient(8888,device, wifiinfo).execute();
     }
 
 }

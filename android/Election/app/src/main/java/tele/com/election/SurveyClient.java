@@ -4,28 +4,11 @@ import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.os.AsyncTask;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
-import java.io.OutputStream;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.UnknownHostException;
 
 public class SurveyClient extends AsyncTask{
-
-    private int port;
-    private WifiP2pDevice serverDevice;
-    private WifiP2pInfo wifiinfo;
-
-    public SurveyClient(int port, WifiP2pDevice device,WifiP2pInfo wifiinfo){
-        this.port = port;
-        this.wifiinfo = wifiinfo;
-        this.serverDevice = device;
-    }
 
     protected  void onPreExecute(){
         System.out.println("Receiving the message from the server!");
@@ -34,13 +17,14 @@ public class SurveyClient extends AsyncTask{
     @Override
     protected String doInBackground(Object[] params) {
         try {
-            InetAddress serverIP = InetAddress.getByName("192.168.49.1");
+            WifiP2pDevice device = (WifiP2pDevice) params[0];
+            WifiP2pInfo wifiinfo = (WifiP2pInfo) params[1];
+            int port = (int) params[2];
+            InetAddress serverIP = wifiinfo.groupOwnerAddress;
             Socket socket;
             ObjectInputStream mIIS;
             try{
-                System.out.println("O Ip do servidor e a porta são: " + serverIP+ ":"+port);
                 socket = new Socket(serverIP,port);
-                System.out.println("Cá estou");
                 mIIS = new ObjectInputStream(socket.getInputStream());
                 System.out.println(mIIS.readObject());
 
@@ -51,7 +35,7 @@ public class SurveyClient extends AsyncTask{
                 System.out.println(e);
             }
 
-        } catch (UnknownHostException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     return "Client isnt working!";

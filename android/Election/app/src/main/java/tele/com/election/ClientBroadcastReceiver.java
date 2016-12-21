@@ -43,14 +43,11 @@ public class ClientBroadcastReceiver extends BroadcastReceiver{
             WifiP2pDevice device = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
 
             System.out.println("Algum dispositivo foi conectado");
-            //mActivity.receiveSurvey(device,wifiinfo);
             if(networkState.isConnected()){
                 System.out.println("NetworkState isConected");
                 System.out.println(wifiinfo);
-                //mActivity.receiveSurvey(wifiinfo,device);
-                //mActivity.setWifiinfo(wifiinfo);
                 try {
-                    mActivity.receiveSurvey(device,wifiinfo);
+                    mActivity.receiveSurvey(device,wifiinfo,8888);
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }
