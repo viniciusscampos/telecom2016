@@ -38,7 +38,6 @@ public class AnswerSurveyActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_survey);
 
-        titleView = (TextView)findViewById(R.id.survey_title_view);
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(this, getMainLooper(), null);
         mReceiver = new ClientBroadcastReceiver(mManager, mChannel, this);

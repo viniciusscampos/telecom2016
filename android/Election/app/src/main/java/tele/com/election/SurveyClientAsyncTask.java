@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.ObjectInputStream;
@@ -52,11 +53,19 @@ public class SurveyClientAsyncTask extends AsyncTask{
     }
 
     protected void onPostExecute(Object result){
-        //this.activity.dataFromPostExecute(this.survey);
-        TextView tv = (TextView) this.activity.findViewById(R.id.survey_title_view);
-        tv.setText(this.survey.getTitle());
-        //LinearLayout linearLayout = new LinearLayout(this.activity);
-        LinearLayout linearLayout = (LinearLayout) this.activity.findViewById(R.id.answer_survey_options_layout);
+        System.out.println("onPostExecute");
+        LinearLayout linearLayout = (LinearLayout) this.activity.findViewById(R.id.activity_answer_survey);
+        TextView titleLabel = new TextView(this.activity);
+        titleLabel.setText("Título:");
+        TextView titleContent = new TextView(this.activity);
+        titleContent.setText(this.survey.getTitle());
+        TextView optionsLabel = new TextView(this.activity);
+        optionsLabel.setText("Alternativas:");
+
+        linearLayout.addView(titleLabel);
+        linearLayout.addView(titleContent);
+        linearLayout.addView(optionsLabel);
+
         for(final Option option : this.survey.getResult()){
             Button alternative = new Button(this.activity);
             alternative.setText(option.text);
