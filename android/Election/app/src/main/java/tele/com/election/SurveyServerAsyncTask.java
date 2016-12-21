@@ -1,16 +1,12 @@
 package tele.com.election;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.view.View;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+
 
 public class SurveyServerAsyncTask extends AsyncTask {
 
@@ -19,20 +15,25 @@ public class SurveyServerAsyncTask extends AsyncTask {
     public SurveyServerAsyncTask(){
 
     }
+
+    protected  void onPreExecute(){
+        System.out.println("Sending the message to the client!");
+    }
+
     @Override
     protected String doInBackground(Object[] params) {
         try{
-            ServerSocket serverSocket = new ServerSocket(8888);
-            Socket client = serverSocket.accept();
-
-            ObjectOutputStream output = new ObjectOutputStream(client.getOutputStream());
-            output.flush();
-            output.writeObject("Oi");
-            output.close();
-            client.close();
-
-            return "Funcionou!";
-
+            ServerSocket listener = new ServerSocket(8888);
+            Socket socket = listener.accept();
+            try{
+                ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
+                output.flush();
+                output.writeObject("Oi");
+                output.close();
+                return "Funcionou!";
+            } finally {
+                socket.close();
+            }
         }
         catch (Exception e){
             System.out.println("Erro: " + e.getMessage());

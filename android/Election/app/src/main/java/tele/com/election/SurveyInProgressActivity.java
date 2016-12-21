@@ -108,7 +108,8 @@ public class SurveyInProgressActivity extends AppCompatActivity{
     */
     private void callSurveyAsyncTask(){
         SurveyServerAsyncTask surveyServerAsyncTask = new SurveyServerAsyncTask();
-        surveyServerAsyncTask.doInBackground(new Object[0]);
+        surveyServerAsyncTask.execute();
+        //surveyServerAsyncTask.doInBackground(new Object[0]);
     }
 
 }

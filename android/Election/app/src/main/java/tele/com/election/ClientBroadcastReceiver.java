@@ -8,6 +8,8 @@ import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 
+import java.net.UnknownHostException;
+
 
 public class ClientBroadcastReceiver extends BroadcastReceiver{
 
@@ -40,8 +42,18 @@ public class ClientBroadcastReceiver extends BroadcastReceiver{
             WifiP2pInfo wifiinfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_INFO);
             WifiP2pDevice device = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
 
+            System.out.println("Algum dispositivo foi conectado");
+            //mActivity.receiveSurvey(device,wifiinfo);
             if(networkState.isConnected()){
+                System.out.println("NetworkState isConected");
+                System.out.println(wifiinfo);
                 //mActivity.receiveSurvey(wifiinfo,device);
+                //mActivity.setWifiinfo(wifiinfo);
+                try {
+                    mActivity.receiveSurvey(device,wifiinfo);
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
             }
 
         } else if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {
