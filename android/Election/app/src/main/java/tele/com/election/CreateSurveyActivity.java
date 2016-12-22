@@ -50,7 +50,6 @@ public class CreateSurveyActivity extends AppCompatActivity {
             options.add(optionOne);
             String optionTwo = secondOptionEditText.getText().toString();
             options.add(optionTwo);
-            //Survey survey = new Survey(title, options);
 
             /////////////// PASSA PARA ACTIVITY DE PROGRESSO DA ENQUETE ///////////////
             Intent intent = new Intent(this, SurveyInProgressActivity.class);

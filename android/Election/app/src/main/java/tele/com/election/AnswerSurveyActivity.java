@@ -12,10 +12,7 @@ import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -29,7 +26,7 @@ public class AnswerSurveyActivity extends AppCompatActivity{
     private List peers = new ArrayList();
     private boolean isConnected;
     private Survey survey;
-    private TextView titleView;
+    private SurveyClientAsyncTask surveyClientAsyncTask;
 
 
 
@@ -54,15 +51,6 @@ public class AnswerSurveyActivity extends AppCompatActivity{
     protected void onResume(){
         super .onResume();
         registerReceiver(mReceiver,mIntentFilter);
-
-        if (this.survey != null) {
-            this.titleView.setText(this.survey.getTitle());
-        }
-        //setContentView(R.layout.activity_answer_survey);
-        //TextView tv1 = (TextView)findViewById(R.id.survey_title_view);
-        //if(this.survey!=null){
-         //   tv1.setText(this.survey.getTitle());
-        //}
 
         mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener(){
             final Context context = getApplicationContext();
@@ -175,13 +163,13 @@ public class AnswerSurveyActivity extends AppCompatActivity{
 
     public void receiveSurvey(WifiP2pInfo wifiinfo, int port) {
         System.out.println("Receiving Survey.");
-        SurveyClientAsyncTask surveyClientAsyncTask = new SurveyClientAsyncTask();
-        surveyClientAsyncTask.execute(wifiinfo,port,this);
+        this.surveyClientAsyncTask = new SurveyClientAsyncTask();
+        this.surveyClientAsyncTask.execute(wifiinfo,port,this);
     }
 
     public void dataFromPostExecute(Option option){
-        //this.survey = survey;
         System.out.println("A opção escolhida foi: "+ option.text);
+
     }
 
 }
